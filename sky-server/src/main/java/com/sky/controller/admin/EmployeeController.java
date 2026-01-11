@@ -1,6 +1,7 @@
 package com.sky.controller.admin;
 
 import com.sky.constant.JwtClaimsConstant;
+import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,7 +56,36 @@ public class EmployeeController {
         employeeService.save(employeeDTO);
         return Result.success();
     }
-    
+    /**
+     * 启用禁用员工接口
+     * @param status 0禁用 1启用
+     * @param id 员工id
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("启用禁用员工")
+    public Result updateStatus(@RequestParam("id") Long id,@PathVariable("status") Integer status){
+        log.info("修改员工状态：id={},status={}",id,status);
+        employeeService.updateStatus(id, status);
+        return Result.success();
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询员工信息")
+    public Result<Employee> getById(@PathVariable("id") Long id){
+        log.info("根据id查询员工信息：id={}",id);
+        Employee employee = employeeService.getById(id);
+        return Result.success(employee);
+    }
+
+    @PutMapping
+    @ApiOperation("修改员工信息")
+    public Result update(@RequestBody EmployeeDTO employeeDTO){
+        log.info("修改员工信息：{}",employeeDTO);
+        //获取当前登录用户id
+        employeeService.updateUser(employeeDTO);
+        return Result.success();
+    }
     /**
      * 登录
      *
