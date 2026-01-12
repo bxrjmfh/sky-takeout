@@ -75,13 +75,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setPhone(employeeDTO.getPhone());
         employee.setSex(employeeDTO.getSex());
 //      设置修改时间
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setStatus(StatusConstant.ENABLE);
-        // 获取当前登录用户的id
-        Long currentLoginUserId = BaseContext.getCurrentId();
-        employee.setCreateUser(currentLoginUserId);
-        employee.setUpdateUser(currentLoginUserId);
+//        employee.setCreateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setStatus(StatusConstant.ENABLE);
+//        // 获取当前登录用户的id
+//        Long currentLoginUserId = BaseContext.getCurrentId();
+//        employee.setCreateUser(currentLoginUserId);
+//        employee.setUpdateUser(currentLoginUserId);
 //        插入到对应数据库中
 
         employeeMapper.insert(employee);
@@ -95,8 +95,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setPhone(employeeDTO.getPhone());
         employee.setSex(employeeDTO.getSex());
         employee.setIdNumber(employeeDTO.getIdNumber());
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+//        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setUpdateUser(BaseContext.getCurrentId());
         employeeMapper.update(employee);
     }
 
@@ -110,8 +110,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee();
         employee.setId(id);
         employee.setStatus(status);
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+//        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setUpdateUser(BaseContext.getCurrentId());
         employeeMapper.update(employee);
     }
     public PageResult page(EmployeePageQueryDTO employeePageQueryDTO){
