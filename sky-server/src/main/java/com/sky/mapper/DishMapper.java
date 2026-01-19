@@ -1,7 +1,16 @@
 package com.sky.mapper;
 
+import com.github.pagehelper.Page;
+import com.sky.annotation.AutoFill;
+import com.sky.dto.DishPageQueryDTO;
+import com.sky.entity.Dish;
+import com.sky.enumeration.OperationType;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface DishMapper {
@@ -13,5 +22,49 @@ public interface DishMapper {
      */
     @Select("select count(id) from dish where category_id = #{categoryId}")
     Integer countByCategoryId(Long categoryId);
+
+    /**
+     * 插入菜品信息
+     */
+    @Insert("insert into dish (name, category_id, price, image, description, status, create_time, update_time, create_user, update_user) " +
+            "values" +
+            " (#{name}, #{categoryId}, #{price}, #{image}, #{description}, #{status}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})")
+    @AutoFill(OperationType.INSERT)
+    @Options(useGeneratedKeys=true, keyProperty = "id") //加入回传id的注解
+    void insert(Dish dish);
+
+    /**
+     * 更新菜品信息
+     */
+    @AutoFill(value = OperationType.UPDATE)
+    void updateById(Dish dish);
+
+    /**
+     * 删除菜品信息
+     */
+    void deleteById(Long id);
+
+    /**
+     * 根据id查询菜品信息
+     */
+    @Select("select * from dish where id = #{id}")
+    Dish selectById(Long id);
+
+    /**
+     * 根据分类id选中数据
+     */
+    @Select("select * from dish where category_id = #{categoryId}")
+    List<Dish> selectByCategoryId(Long categoryId);
+
+    /**
+     * 分页查询接口
+     */
+    Page<Dish> pageQuery(DishPageQueryDTO dishPageQueryDTO);
+
+//    /**
+//     * 统计页面数量
+//     */
+//    @Select("select count(id) from dish where name like #{name}")
+//    Integer countByName(String name);
 
 }
