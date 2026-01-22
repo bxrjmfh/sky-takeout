@@ -44,20 +44,45 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     }
 
     /**
-     * 通过knife4j生成接口文档
+     * 通过knife4j生成接口文档，服务端
      * @return
      */
     @Bean
-    public Docket docket() {
+    public Docket docket1(){
+        log.info("准备生成管理接口文档...");
         ApiInfo apiInfo = new ApiInfoBuilder()
-                .title("苍穹外卖项目接口文档")
+                .title("Sky外卖管理接口文档")
                 .version("2.0")
-                .description("苍穹外卖项目接口文档")
+                .description("Sky外卖管理接口文档")
                 .build();
+
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                .groupName("管理端接口文档")
                 .apiInfo(apiInfo)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.sky.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.sky.controller.admin"))
+                .paths(PathSelectors.any())
+                .build();
+        return docket;
+    }
+    /**
+     * 通过knife4j生成接口文档，客户端
+     * @return
+     */
+    @Bean
+    public Docket docket2(){
+        log.info("准备生成客户接口文档...");
+        ApiInfo apiInfo = new ApiInfoBuilder()
+                .title("Sky外卖客户接口文档")
+                .version("2.0")
+                .description("Sky外卖客户接口文档")
+                .build();
+
+        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                .groupName("客户端接口文档")
+                .apiInfo(apiInfo)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.sky.controller.user"))
                 .paths(PathSelectors.any())
                 .build();
         return docket;
